@@ -28,6 +28,7 @@ router.post("/register",async(req,res)=>{
 })
 
         })
+
     
 
     //let data=req.body
