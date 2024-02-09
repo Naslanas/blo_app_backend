@@ -14,4 +14,11 @@ router.post("/add",async(req,res)=>{
     )
 })
 
+router.post("/viewall",async(req,res)=>{
+    let result=await postModel.find()
+    .populate("userId","name age mobile address pincode email -_id")         //populate---fields that we want
+    .exec()
+    res.json(result)
+})
+
 module.exports=router
