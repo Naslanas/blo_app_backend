@@ -29,6 +29,11 @@ router.post("/register",async(req,res)=>{
 
         })
 
+        router.post("/login",async(req,res)=>{
+            let input=req.body
+            let data=await signupModel.find(input)
+            res.json(data)
+        })
     
 
     //let data=req.body
