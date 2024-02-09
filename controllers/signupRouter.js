@@ -13,7 +13,7 @@ router.post("/register",async(req,res)=>{
     let {data}={"data":req.body}
     let password=data.password
 
-    hashPasswordGenerator(password).then(
+    /*hashPasswordGenerator(password).then(
         (hashedPassword)=>{
             console.log(hashedPassword)
             data.password=hashedPassword
@@ -25,26 +25,53 @@ router.post("/register",async(req,res)=>{
             status:"success"
          }
     )
-})
+})*/
+
+    const hashedPassword=await hashPasswordGenerator(password)
+    data.password.hashedPassword
+    let signup=new signupModel(data)
+    let result=await signup.save()
+    res.json(
+        {
+            status:"success"
+        }
+    )
+
 
         })
 
         router.post("/login",async(req,res)=>{
             let input=req.body
-            let data=await signupModel.find(input)
-            res.json(data)
+            let email=req.body.email
+            let data=await signupModel.findOne({"email":email})
+            if(!data){
+                return res.json(
+                    {
+                        status:"Invalid email id"
+                    }
+                )
+            }
+
+            console.log(data)
+            let dbPassword=data.password
+            let inputPassword=req.body.password
+            console.log(dbPassword)
+            console.log(inputPassword)
+
+            const match=await bcrypt.compare(inputPassword,dbPassword)
+            if(!match)
+            {
+                    return res.json(
+                        {
+                            status:"Invalid password"
+                        }
+                    )
+            }
+
+            res.json({
+                status:"success"
+            })
         })
-    
-
-    //let data=req.body
-    /*let name=req.body.name
-    let age=req.body.age
-    let mobile=req.body.mobile
-    let address=req.body.address
-    let pincode=req.body.pincode
-    let email=req.body.email
-    let password=req.body.password*/
-
 
 
 module.exports=router
