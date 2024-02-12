@@ -19,19 +19,19 @@ router.post("/register",async(req,res)=>{
     let {data}={"data":req.body}
     let password=data.password
 
-    /*hashPasswordGenerator(password).then(
-        (hashedPassword)=>{
-            console.log(hashedPassword)
-            data.password=hashedPassword
-            console.log(data)
-            let signup=new signupModel(data)
-            let result=signup.save()
-            res.json(
-            {
-            status:"success"
-         }
-    )
-})*/
+//     hashPasswordGenerator(password).then(
+//         (hashedPassword)=>{
+//             console.log(hashedPassword)
+//             data.password=hashedPassword
+//             console.log(data)
+//             let signup=new signupModel(data)
+//             let result=signup.save()
+//             res.json(
+//             {
+//             status:"success"
+//          }
+//     )
+// })
 
     const hashedPassword=await hashPasswordGenerator(password)
     data.password.hashedPassword
@@ -75,7 +75,7 @@ router.post("/register",async(req,res)=>{
             }
 
             res.json({
-                status:"success"
+                status:"success","userdata":data
             })
         })
 
